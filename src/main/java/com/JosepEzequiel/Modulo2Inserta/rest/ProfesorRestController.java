@@ -1,6 +1,6 @@
 package com.JosepEzequiel.Modulo2Inserta.rest;
 
-import com.JosepEzequiel.Modulo2Inserta.dao.ProfesorDAO;
+import com.JosepEzequiel.Modulo2Inserta.dao.ProfesorRepository;
 import com.JosepEzequiel.Modulo2Inserta.entity.Profesor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +12,8 @@ import java.util.List;
 public class ProfesorRestController {
 
     @Autowired
-    private ProfesorDAO profesorRepository;
+    private ProfesorRepository profesorRepository;
 
-    @GetMapping
     public List<Profesor> listar() {
         return profesorRepository.findAll();
     }

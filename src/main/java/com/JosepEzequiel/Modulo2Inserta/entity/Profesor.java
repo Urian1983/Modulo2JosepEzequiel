@@ -14,14 +14,17 @@ public class Profesor {
     private String apellidos;
     private String direccion;
 
+    // Constructor vacío (obligatorio para JPA)
     public Profesor() {}
 
+    // Constructor con parámetros
     public Profesor(String nombre, String apellidos, String direccion) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.direccion = direccion;
     }
 
+    // Getters y Setters
     public Long getId() {
         return id;
     }
