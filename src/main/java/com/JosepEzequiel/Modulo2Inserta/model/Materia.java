@@ -59,8 +59,9 @@ public class Materia {
         return horasCredito;
     }
 
-//Desde que id se autogenera, este no tiene setter para evitar conflictos
-    //por id coincidentes
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;

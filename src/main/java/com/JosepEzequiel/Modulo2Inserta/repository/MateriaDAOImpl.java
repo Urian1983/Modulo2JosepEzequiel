@@ -20,36 +20,40 @@ public class MateriaDAOImpl implements MateriaDAO {
 
     @Override
     @Transactional
-    public void createMateria(Materia materia) {
+    public Optional<Materia> createMateria(Materia materia) {
         entityManager.persist(materia);
+        return this.findMateriaById(materia.getId());
     }
 
     @Override
     @Transactional
-    public void updateMateria(Materia materia, int id) {
-        Materia materiaToUpdate = entityManager.find(Materia.class, id);
-
-        if(materiaToUpdate != null) {
-            materiaToUpdate.setNombre(materia.getNombre());
-            materiaToUpdate.setHorasCredito(materia.getHorasCredito());
-            materiaToUpdate.setNumCreditos(materia.getNumCreditos());
+    public Optional<Materia> updateMateria(Materia materia) {
+        Optional<Materia> materiaToUpdate = this.findMateriaById(materia.getId());
+        if (materiaToUpdate.isPresent()) {
+            Materia updatedMateria = entityManager.merge(materia);
+            return Optional.ofNullable(updatedMateria);
         }
-    }
+        return Optional.empty();
+        }
 
     @Override
     @Transactional
-    public void deleteMateria(int id) {
-        entityManager.remove(entityManager.find(Materia.class, id));
+    public boolean deleteMateria(int id) {
+        Optional<Materia> materiaToRemove = this.findMateriaById(id);
+        if(materiaToRemove.isPresent()) {
+            entityManager.remove(materiaToRemove.get());
+            return true;
+        }
+        return false;
     }
 
     @Override
     public List<Materia> findAllMaterias() {
-        TypedQuery<Materia> ListAllQuery;
-        ListAllQuery = entityManager.createQuery("FROM Materia", Materia.class);
-        return ListAllQuery.getResultList();
+        TypedQuery<Materia> query;
+        query = entityManager.createQuery("FROM Materia", Materia.class);
+        return query.getResultList();
     }
 
-    //He tenido que consultar a la IA para poder devolverlo como un Optional
     @Override
     public Optional<Materia> findMateriaById(int id) {
         return Optional.ofNullable(
@@ -58,10 +62,11 @@ public class MateriaDAOImpl implements MateriaDAO {
     }
     @Override
     public Optional<Materia> findMateriaByNombre(String nombre) {
-        TypedQuery<Materia> theQuery = entityManager.createQuery(
+        TypedQuery<Materia> query = entityManager.createQuery(
                 "FROM Materia WHERE nombre = :nombre", Materia.class
         );
-        return theQuery.getResultStream()
+        return query.setParameter("nombre", nombre)
+                .getResultStream()
                 .findFirst();
     }
 }

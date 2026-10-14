@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface MateriaDAO {
 
-    void createMateria(Materia materia);
-    void updateMateria(Materia materia, int id);
-    void deleteMateria(int id);
+    Optional<Materia> createMateria(Materia materia);
+    Optional<Materia> updateMateria(Materia materia);
+    boolean deleteMateria(int id);
     List<Materia> findAllMaterias();
     Optional<Materia> findMateriaById(int id);
     Optional<Materia> findMateriaByNombre(String nombre);
