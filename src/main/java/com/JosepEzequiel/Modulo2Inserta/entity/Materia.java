@@ -1,4 +1,4 @@
-package com.JosepEzequiel.Modulo2Inserta.model;
+package com.JosepEzequiel.Modulo2Inserta.entity;
 
 import jakarta.persistence.*;
 

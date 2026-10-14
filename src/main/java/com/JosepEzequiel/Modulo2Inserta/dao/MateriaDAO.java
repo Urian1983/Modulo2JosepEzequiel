@@ -1,6 +1,6 @@
-package com.JosepEzequiel.Modulo2Inserta.repository;
+package com.JosepEzequiel.Modulo2Inserta.dao;
 
-import com.JosepEzequiel.Modulo2Inserta.model.Materia;
+import com.JosepEzequiel.Modulo2Inserta.entity.Materia;
 
 import java.util.List;
 import java.util.Optional;

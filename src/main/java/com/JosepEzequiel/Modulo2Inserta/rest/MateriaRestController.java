@@ -1,7 +1,7 @@
-package com.JosepEzequiel.Modulo2Inserta.controller;
+package com.JosepEzequiel.Modulo2Inserta.rest;
 
-import com.JosepEzequiel.Modulo2Inserta.model.Materia;
-import com.JosepEzequiel.Modulo2Inserta.repository.MateriaDAO;
+import com.JosepEzequiel.Modulo2Inserta.entity.Materia;
+import com.JosepEzequiel.Modulo2Inserta.dao.MateriaDAO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
