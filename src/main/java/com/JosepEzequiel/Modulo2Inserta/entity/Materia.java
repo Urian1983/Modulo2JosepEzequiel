@@ -7,8 +7,6 @@ import jakarta.persistence.*;
 public class Materia {
 
     //Constructores
-
-
     public Materia() {
     }
 
@@ -37,9 +35,9 @@ public class Materia {
     @Column(name="horas_credito")
     private int horasCredito;
 
-    /*@ManyToOne
-    @JoinColumn("id_profesor")
-    private int idProfesor; -> A desarrollar luego */
+    @ManyToOne
+    @JoinColumn(name="id_profesor")
+    private Profesor profesor;
 
     //Getters y Setters
 
@@ -75,5 +73,20 @@ public class Materia {
         this.horasCredito = horasCredito;
     }
 
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
     //ToString
+
+    @Override
+    public String toString() {
+        return "Materia{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", numCreditos=" + numCreditos +
+                ", horasCredito=" + horasCredito +
+                ", profesor=" + profesor +
+                '}';
+    }
 }
