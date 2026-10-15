@@ -2,6 +2,7 @@ package com.JosepEzequiel.Modulo2Inserta.rest;
 
 import com.JosepEzequiel.Modulo2Inserta.entity.Materia;
 import com.JosepEzequiel.Modulo2Inserta.dao.MateriaDAO;
+import com.JosepEzequiel.Modulo2Inserta.entity.Profesor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -50,6 +51,17 @@ public class MateriaRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return materia;
+    }
+
+    @GetMapping("materias/profesor/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Profesor> findProfesor(@PathVariable int id) {
+        Optional<Profesor> profesor = materiaDAO.findProfesorById(id);
+
+        if(profesor.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return profesor;
     }
 
     @DeleteMapping("/materias/{id}")

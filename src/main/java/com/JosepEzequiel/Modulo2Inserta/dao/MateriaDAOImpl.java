@@ -1,6 +1,7 @@
 package com.JosepEzequiel.Modulo2Inserta.dao;
 
 import com.JosepEzequiel.Modulo2Inserta.entity.Materia;
+import com.JosepEzequiel.Modulo2Inserta.entity.Profesor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -62,10 +63,21 @@ public class MateriaDAOImpl implements MateriaDAO {
     }
     @Override
     public Optional<Materia> findMateriaByNombre(String nombre) {
-        TypedQuery<Materia> query = entityManager.createQuery(
+        TypedQuery<Materia> query =
+                entityManager.createQuery(
                 "FROM Materia WHERE nombre = :nombre", Materia.class
         );
         return query.setParameter("nombre", nombre)
+                .getResultStream()
+                .findFirst();
+    }
+
+    @Override
+    public Optional<Profesor> findProfesorById(int id) {
+        TypedQuery<Profesor> query=
+                entityManager.createQuery(
+                        "FROM Profesor WHERE id = :id", Profesor.class);
+        return query.setParameter("id", id)
                 .getResultStream()
                 .findFirst();
     }

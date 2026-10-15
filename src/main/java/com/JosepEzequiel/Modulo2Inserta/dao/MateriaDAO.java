@@ -1,6 +1,7 @@
 package com.JosepEzequiel.Modulo2Inserta.dao;
 
 import com.JosepEzequiel.Modulo2Inserta.entity.Materia;
+import com.JosepEzequiel.Modulo2Inserta.entity.Profesor;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,5 +14,6 @@ public interface MateriaDAO {
     List<Materia> findAllMaterias();
     Optional<Materia> findMateriaById(int id);
     Optional<Materia> findMateriaByNombre(String nombre);
+    Optional<Profesor> findProfesorById(int id);
     //Materia findMateriaByProfesor(Profesor profesor); a implementar luego
 }
