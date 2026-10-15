@@ -1,25 +1,67 @@
 package com.JosepEzequiel.Modulo2Inserta.rest;
 
-import com.JosepEzequiel.Modulo2Inserta.dao.ProfesorRepository;
+import com.JosepEzequiel.Modulo2Inserta.dao.ProfesorDAO;
 import com.JosepEzequiel.Modulo2Inserta.entity.Profesor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/api/profesores")
+@RequestMapping("/api")
 public class ProfesorRestController {
 
+    private ProfesorDAO profesorDAO;
+
     @Autowired
-    private ProfesorRepository profesorRepository;
-
-    public List<Profesor> listar() {
-        return profesorRepository.findAll();
+    public ProfesorRestController(ProfesorDAO theProfesorDAO) {
+        profesorDAO = theProfesorDAO;
     }
 
-    @PostMapping
-    public Profesor guardar(@RequestBody Profesor profesor) {
-        return profesorRepository.save(profesor);
+    @GetMapping("/profesores")
+    public List<Profesor> findAll() {
+        return profesorDAO.findAll();
     }
-}
+
+    @GetMapping("/profesor/¨{profesorId}")
+    public Profesor getProfesor(@PathVariable int profesorId) {
+
+        Profesor profesor = this.profesorDAO.findById(profesorId);
+
+        if (profesor == null) {
+            throw new RuntimeException("Profesor id not found" + profesorId);
+
+        }
+        return profesor;
+    }
+
+    @PostMapping("/profesores") 
+    @ResponseStatus(HttpStatus.CREATED)
+    public Profesor addProfesores(@RequestBody Profesor theProfesores) {
+
+        profesorDAO.save(theProfesores);
+        return theProfesores;
+    }
+
+    @PutMapping("/profesores")
+    public Profesor updateProfesor(@RequestBody Profesor theProfesor) {
+        this.profesorDAO.update(theProfesor);
+        return theProfesor;
+    }
+
+    @DeleteMapping("/profesores/¨{id}") 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProfesor(@PathVariable Integer id) {
+        if (!(profesorDAO.removeProfesor(id))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        
+       
+            
+    } 
+   
+    }
+
+

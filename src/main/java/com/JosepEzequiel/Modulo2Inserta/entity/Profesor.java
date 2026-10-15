@@ -1,6 +1,7 @@
 package com.JosepEzequiel.Modulo2Inserta.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "profesor")
@@ -24,6 +25,14 @@ public class Profesor {
         this.direccion = direccion;
     }
 
+    @OneToMany(mappedBy = "Profesor")
+    private List<Materia> materias;
+    
+    @Override
+    public String toString() {
+        return "Profesor{" + "id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", direccion=" + direccion + '}';
+    }
+    
     // Getters y Setters
     public Long getId() {
         return id;
