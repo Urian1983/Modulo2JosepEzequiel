@@ -25,7 +25,7 @@ public class Profesor {
         this.direccion = direccion;
     }
 
-    @OneToMany(mappedBy = "Profesor")
+    @OneToMany(mappedBy = "profesor")
     private List<Materia> materias;
     
     @Override
