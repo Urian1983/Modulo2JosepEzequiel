@@ -44,10 +44,13 @@ public class ProfesorDAOImpl implements ProfesorDAO {
          entityManager.merge(theProfesor);
      }
 
-    @Override
-    public List<Profesor> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+     @Override
+     public List<Profesor> findAll() {
+         TypedQuery<Profesor> query = entityManager.createQuery
+                 ("FROM Profesor", Profesor.class);
+        return query.getResultList();
     }
+
     @Override
     public boolean removeProfesor(int id) {
         Profesor Juan = this.findById(id);

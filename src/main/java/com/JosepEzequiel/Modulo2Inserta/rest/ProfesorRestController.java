@@ -16,8 +16,8 @@ public class ProfesorRestController {
     private ProfesorDAO profesorDAO;
 
     @Autowired
-    public ProfesorRestController(ProfesorDAO theProfesorDAO) {
-        profesorDAO = theProfesorDAO;
+    public ProfesorRestController(ProfesorDAO profesorDAO) {
+        this.profesorDAO = profesorDAO;
     }
 
     @GetMapping("/profesores")
@@ -25,14 +25,13 @@ public class ProfesorRestController {
         return profesorDAO.findAll();
     }
 
-    @GetMapping("/profesor/¨{profesorId}")
+    @GetMapping("/profesor/{profesorId}")
     public Profesor getProfesor(@PathVariable int profesorId) {
 
         Profesor profesor = this.profesorDAO.findById(profesorId);
 
         if (profesor == null) {
             throw new RuntimeException("Profesor id not found" + profesorId);
-
         }
         return profesor;
     }
@@ -40,7 +39,6 @@ public class ProfesorRestController {
     @PostMapping("/profesores") 
     @ResponseStatus(HttpStatus.CREATED)
     public Profesor addProfesores(@RequestBody Profesor theProfesores) {
-
         profesorDAO.save(theProfesores);
         return theProfesores;
     }
@@ -57,9 +55,6 @@ public class ProfesorRestController {
         if (!(profesorDAO.removeProfesor(id))) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        
-       
-            
     } 
    
     }
