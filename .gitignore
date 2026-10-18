@@ -16,7 +16,5 @@ HELP.md target/ .mvn/wrapper/maven-wrapper.jar !/src/main//target/ !/src/test//t
 
 .vscode/
 
-### Application Properties ###
-
-**/application.properties
-**/application-*.properties
+## Credentials
+.env
