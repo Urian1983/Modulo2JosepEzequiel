@@ -49,7 +49,7 @@ public class ProfesorRestController {
         return theProfesor;
     }
 
-    @DeleteMapping("/profesores/¨{id}") 
+    @DeleteMapping("/profesores/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProfesor(@PathVariable Integer id) {
         if (!(profesorDAO.removeProfesor(id))) {
