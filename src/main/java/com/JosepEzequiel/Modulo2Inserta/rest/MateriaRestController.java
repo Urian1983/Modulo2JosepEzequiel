@@ -54,7 +54,7 @@ public class MateriaRestController {
 
     @DeleteMapping("/materias/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(int id) {
+    public void delete(@PathVariable int id) {
         if(materiaDAO.findById(id).isPresent()) {
             materiaDAO.delete(id);
         }
@@ -62,8 +62,10 @@ public class MateriaRestController {
 
     @GetMapping("/materia/{id}/profesor")
     @ResponseStatus(HttpStatus.OK)
-    public Profesor findByProfesor(@PathVariable int id) {
-        return materiaDAO.findProfesorById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "p" + "Profesor no asignado a la materia"));
+    public Profesor findByProfesor(@PathVariable int materiaId) {
+        Materia materia = materiaDAO.findById(materiaId)
+                .orElseThrow(() -> new ResponseStatusException
+                        (HttpStatus.NOT_FOUND, "Materia no encontrada"));
+        return materia.getProfesor();
     }
 }

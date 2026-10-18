@@ -31,13 +31,7 @@ public class ProfesorDAOImpl implements ProfesorDAO {
        TypedQuery<Materia> query = entityManager.createQuery("FROM Materia WHERE id = :id", Materia.class);
                return query.getResultList();
      }
-     @Override
-     public List<Profesor> findByLastName(String lastNameString) {
-         TypedQuery<Profesor> theQuery = entityManager.createQuery( 
-                 "FROM Profesor WHERE apellidos = :theLastName", Profesor.class);
-         return theQuery.getResultList();
-     }
-      
+
      @Override
      @Transactional
      public void update(Profesor theProfesor) {
@@ -52,6 +46,7 @@ public class ProfesorDAOImpl implements ProfesorDAO {
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
         Profesor profesor = this.findById(id);
         if(!(profesor == null)) {

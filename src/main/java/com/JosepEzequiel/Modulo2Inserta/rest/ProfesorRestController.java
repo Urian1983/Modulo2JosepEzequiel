@@ -58,9 +58,9 @@ public class ProfesorRestController {
         }
     }
 
-    @GetMapping("profesores/materias/{id}")
+    @GetMapping("profesores/materias")
     @ResponseStatus(HttpStatus.OK)
-    public List<Materia> findMaterias(@PathVariable int id) {
+    public List<Materia> findMaterias() {
         return profesorDAO.findMaterias();
     }
    
