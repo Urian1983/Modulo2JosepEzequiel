@@ -1,76 +1,69 @@
 package com.JosepEzequiel.Modulo2Inserta.rest;
 
-import com.JosepEzequiel.Modulo2Inserta.entity.Materia;
 import com.JosepEzequiel.Modulo2Inserta.dao.MateriaDAO;
+import com.JosepEzequiel.Modulo2Inserta.entity.Materia;
 import com.JosepEzequiel.Modulo2Inserta.entity.Profesor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api")
 public class MateriaRestController {
 
-    private final MateriaDAO materiaDAO;
+    MateriaDAO materiaDAO;
 
+    @Autowired
     public MateriaRestController(MateriaDAO materiaDAO) {
         this.materiaDAO = materiaDAO;
     }
 
     @PostMapping("/materias")
     @ResponseStatus(HttpStatus.CREATED)
-    public Optional<Materia> createMateria(@RequestBody Materia materia) {
-        return materiaDAO.createMateria(materia);
+    public void insert(@RequestBody Materia materia) {
+        if(materiaDAO.findById(materia.getId()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Materia ya existente");
         }
+        materiaDAO.save(materia);
+    }
 
-    @PutMapping("/materias/{id}")
+    @PutMapping("/materias")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Materia> updateMateria(@PathVariable int id, @RequestBody Materia materia) {
-        materia.setId(id);
-        return materiaDAO.updateMateria(materia);
+    public void update(@RequestBody Materia materia) {
+        if(materiaDAO.findById(materia.getId()).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Materia no encontrada, no se puede actualizar");
         }
+        materiaDAO.update(materia);
+    }
 
     @GetMapping("/materias")
     @ResponseStatus(HttpStatus.OK)
-    public List<Materia> findAllMaterias() {
-        List<Materia> materias = materiaDAO.findAllMaterias();
-        if (materias.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return materias;
+    public List<Materia> findAll() {
+        return materiaDAO.findAll();
     }
 
     @GetMapping("/materias/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Materia> findMateria(@PathVariable int id) {
-        Optional<Materia> materia = materiaDAO.findMateriaById(id);
-        if(materia.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return materia;
+    public Materia findById(@PathVariable int id) {
+        return materiaDAO.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Materia no encontrada"));
     }
 
-    @GetMapping("materias/profesor/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Optional<Profesor> findProfesor(@PathVariable int id) {
-        Optional<Profesor> profesor = materiaDAO.findProfesorById(id);
-
-        if(profesor.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return profesor;
-    }
-
-    @DeleteMapping("/materias/{id}")
+    @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteMateria(@PathVariable int id) {
-        if(!(materiaDAO.deleteMateria(id))){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    public void delete(int id) {
+        if(materiaDAO.findById(id).isPresent()) {
+            materiaDAO.delete(id);
         }
     }
 
+    @GetMapping("/profesores/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Profesor findByProfesor(@PathVariable int id) {
+        return materiaDAO.findProfesorById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "p" + "Profesor no asignado a la materia"));
     }
-
+}

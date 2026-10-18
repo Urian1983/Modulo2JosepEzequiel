@@ -21,15 +21,15 @@ public class MateriaDAOImpl implements MateriaDAO {
 
     @Override
     @Transactional
-    public Optional<Materia> createMateria(Materia materia) {
+    public Optional<Materia> save(Materia materia) {
         entityManager.persist(materia);
-        return this.findMateriaById(materia.getId());
+        return this.findById(materia.getId());
     }
 
     @Override
     @Transactional
-    public Optional<Materia> updateMateria(Materia materia) {
-        Optional<Materia> materiaToUpdate = this.findMateriaById(materia.getId());
+    public Optional<Materia> update(Materia materia) {
+        Optional<Materia> materiaToUpdate = this.findById(materia.getId());
         if (materiaToUpdate.isPresent()) {
             Materia updatedMateria = entityManager.merge(materia);
             return Optional.ofNullable(updatedMateria);
@@ -39,8 +39,8 @@ public class MateriaDAOImpl implements MateriaDAO {
 
     @Override
     @Transactional
-    public boolean deleteMateria(int id) {
-        Optional<Materia> materiaToRemove = this.findMateriaById(id);
+    public boolean delete(int id) {
+        Optional<Materia> materiaToRemove = this.findById(id);
         if(materiaToRemove.isPresent()) {
             entityManager.remove(materiaToRemove.get());
             return true;
@@ -49,27 +49,17 @@ public class MateriaDAOImpl implements MateriaDAO {
     }
 
     @Override
-    public List<Materia> findAllMaterias() {
+    public List<Materia> findAll() {
         TypedQuery<Materia> query;
         query = entityManager.createQuery("FROM Materia", Materia.class);
         return query.getResultList();
     }
 
     @Override
-    public Optional<Materia> findMateriaById(int id) {
+    public Optional<Materia> findById(int id) {
         return Optional.ofNullable(
                 entityManager.find(Materia.class, id)
         );
-    }
-    @Override
-    public Optional<Materia> findMateriaByNombre(String nombre) {
-        TypedQuery<Materia> query =
-                entityManager.createQuery(
-                "FROM Materia WHERE nombre = :nombre", Materia.class
-        );
-        return query.setParameter("nombre", nombre)
-                .getResultStream()
-                .findFirst();
     }
 
     @Override
