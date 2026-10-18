@@ -1,0 +1,9 @@
+com\JosepEzequiel\Modulo2Inserta\entity\Materia.class
+com\JosepEzequiel\Modulo2Inserta\dao\MateriaDAOImpl.class
+com\JosepEzequiel\Modulo2Inserta\Modulo2InsertaApplication.class
+com\JosepEzequiel\Modulo2Inserta\rest\ProfesorRestController.class
+com\JosepEzequiel\Modulo2Inserta\dao\ProfesorDAOImpl.class
+com\JosepEzequiel\Modulo2Inserta\rest\MateriaRestController.class
+com\JosepEzequiel\Modulo2Inserta\dao\ProfesorDAO.class
+com\JosepEzequiel\Modulo2Inserta\entity\Profesor.class
+com\JosepEzequiel\Modulo2Inserta\dao\MateriaDAO.class
