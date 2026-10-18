@@ -25,7 +25,7 @@ public class ProfesorRestController {
         return profesorDAO.findAll();
     }
 
-    @GetMapping("/profesor/{profesorId}")
+    @GetMapping("/profesores/{profesorId}")
     public Profesor getProfesor(@PathVariable int profesorId) {
 
         Profesor profesor = this.profesorDAO.findById(profesorId);

@@ -52,7 +52,7 @@ public class MateriaRestController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Materia no encontrada"));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/materias/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(int id) {
         if(materiaDAO.findById(id).isPresent()) {
