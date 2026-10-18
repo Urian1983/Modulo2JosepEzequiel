@@ -60,12 +60,16 @@ public class MateriaRestController {
         }
     }
 
-    @GetMapping("/materia/{id}/profesor")
+    @GetMapping("/materia/{materiaid}/profesor")
     @ResponseStatus(HttpStatus.OK)
     public Profesor findByProfesor(@PathVariable int materiaId) {
         Materia materia = materiaDAO.findById(materiaId)
                 .orElseThrow(() -> new ResponseStatusException
                         (HttpStatus.NOT_FOUND, "Materia no encontrada"));
+
+        if(materia.getProfesor() == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profesor no encontrado");
+        }
         return materia.getProfesor();
     }
 }

@@ -13,6 +13,5 @@ public interface MateriaDAO {
     boolean delete(int id);
     List<Materia> findAll();
     Optional<Materia> findById(int id);
-    Optional<Profesor> findProfesorById(int id);
 
 }
