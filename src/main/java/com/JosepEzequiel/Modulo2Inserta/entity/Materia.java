@@ -10,6 +10,10 @@ public class Materia {
     public Materia() {
     }
 
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
+
     public Materia(String nombre) {
         this.nombre = nombre;
     }

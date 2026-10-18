@@ -60,7 +60,7 @@ public class MateriaRestController {
         }
     }
 
-    @GetMapping("/profesores/{id}")
+    @GetMapping("/materia/{id}/profesor")
     @ResponseStatus(HttpStatus.OK)
     public Profesor findByProfesor(@PathVariable int id) {
         return materiaDAO.findProfesorById(id)

@@ -9,7 +9,7 @@ public class Profesor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private String nombre;
     private String apellidos;
@@ -34,12 +34,22 @@ public class Profesor {
     }
     
     // Getters y Setters
-    public Long getId() {
+
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public List<Materia> getMaterias() {
+        return materias;
+    }
+
+    public void setMaterias(List<Materia> materias) {
+        this.materias = materias;
     }
 
     public String getNombre() {

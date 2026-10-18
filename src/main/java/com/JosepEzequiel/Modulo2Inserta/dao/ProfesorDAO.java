@@ -13,16 +13,10 @@ public interface ProfesorDAO {
     
     void save(Profesor theProfesor);
     Profesor findById(Integer id);
-       
-     List<Profesor> findByLastName(String lastName);
-           
     void update(Profesor theProfesor);
-    
     List<Materia> findMaterias();
-
     List<Profesor> findAll();
-    
-    boolean removeProfesor(int id);
+    boolean delete(int id);
     
 }
 

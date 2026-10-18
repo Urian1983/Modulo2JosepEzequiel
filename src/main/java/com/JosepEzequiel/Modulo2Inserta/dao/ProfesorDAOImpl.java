@@ -52,10 +52,10 @@ public class ProfesorDAOImpl implements ProfesorDAO {
     }
 
     @Override
-    public boolean removeProfesor(int id) {
-        Profesor Juan = this.findById(id);
-        if(!(Juan == null)) {
-            entityManager.remove(Juan);
+    public boolean delete(int id) {
+        Profesor profesor = this.findById(id);
+        if(!(profesor == null)) {
+            entityManager.remove(profesor);
             return true;
         }
         return false;

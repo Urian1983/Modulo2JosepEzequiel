@@ -1,6 +1,7 @@
 package com.JosepEzequiel.Modulo2Inserta.rest;
 
 import com.JosepEzequiel.Modulo2Inserta.dao.ProfesorDAO;
+import com.JosepEzequiel.Modulo2Inserta.entity.Materia;
 import com.JosepEzequiel.Modulo2Inserta.entity.Profesor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,11 +52,17 @@ public class ProfesorRestController {
 
     @DeleteMapping("/profesores/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProfesor(@PathVariable Integer id) {
-        if (!(profesorDAO.removeProfesor(id))) {
+    public void deleteProfesor(@PathVariable int id) {
+        if (!(profesorDAO.delete(id))) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-    } 
+    }
+
+    @GetMapping("profesores/materias/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Materia> findMaterias(@PathVariable int id) {
+        return profesorDAO.findMaterias();
+    }
    
     }
 
