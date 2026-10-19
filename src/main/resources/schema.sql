@@ -4,16 +4,12 @@
 -- y con JdbcUserDetailsManager (users, authorities)
 -- ============================================================
 
--- Limpieza previa: hijas antes que padres
-DROP TABLE IF EXISTS `authorities`;
-DROP TABLE IF EXISTS `materias`;
-DROP TABLE IF EXISTS `users`;
-DROP TABLE IF EXISTS `profesor`;
+
 
 -- ------------------------------------------------------------
 -- Tabla `profesor`  ↔  Profesor.java
 -- ------------------------------------------------------------
-CREATE TABLE `profesor` (
+CREATE TABLE IF NOT EXISTS `profesor` (
                             `id`        int NOT NULL AUTO_INCREMENT,
                             `apellidos` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
                             `direccion` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
@@ -25,7 +21,7 @@ CREATE TABLE `profesor` (
 -- Tabla `materias`  ↔  Materia.java
 -- FK a profesor.id (mismo tipo: int)
 -- ------------------------------------------------------------
-CREATE TABLE `materias` (
+CREATE TABLE IF NOT EXISTS `materias` (
                             `id`            int NOT NULL AUTO_INCREMENT,
                             `horas_credito` int DEFAULT NULL,
                             `nombre`        varchar(255) COLLATE utf8mb4_bin NOT NULL,
@@ -40,7 +36,7 @@ CREATE TABLE `materias` (
 -- ------------------------------------------------------------
 -- Tabla `users`  →  JdbcUserDetailsManager
 -- ------------------------------------------------------------
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
                          `username` varchar(100) NOT NULL COLLATE utf8mb4_bin,
                          `password` varchar(100) NOT NULL,
                          `enabled`  tinyint(1) NOT NULL DEFAULT 1,
@@ -51,7 +47,7 @@ CREATE TABLE `users` (
 -- Tabla `authorities`  →  JdbcUserDetailsManager
 -- FK a users.username (mismo COLLATE: utf8mb4_bin)
 -- ------------------------------------------------------------
-CREATE TABLE `authorities` (
+CREATE TABLE IF NOT EXISTS `authorities` (
                                `username`  varchar(100) NOT NULL COLLATE utf8mb4_bin,
                                `authority` varchar(50)  NOT NULL,
                                UNIQUE KEY `authorities_idx_1` (`username`, `authority`),
@@ -63,12 +59,12 @@ CREATE TABLE `authorities` (
 -- Datos iniciales de seguridad
 -- {noop} = contraseña en texto plano (decisión consciente)
 -- ------------------------------------------------------------
-INSERT INTO `users` (`username`, `password`, `enabled`) VALUES
+INSERT IGNORE INTO `users` (`username`, `password`, `enabled`) VALUES
                                                             ('rector',   '{noop}1234', 1),
                                                             ('profesor', '{noop}1234', 1),
                                                             ('alumno',   '{noop}1234', 1);
 
-INSERT INTO `authorities` (`username`, `authority`) VALUES
+INSERT IGNORE INTO `authorities` (`username`, `authority`) VALUES
                                                         ('rector',   'ROLE_RECTOR'),
                                                         ('profesor', 'ROLE_PROFESOR'),
                                                         ('alumno',   'ROLE_ALUMNO');
