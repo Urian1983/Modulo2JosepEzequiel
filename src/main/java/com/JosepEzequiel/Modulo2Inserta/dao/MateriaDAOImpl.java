@@ -31,7 +31,7 @@ public class MateriaDAOImpl implements MateriaDAO {
         if(this.findById(materia.getId()).isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(materia);
+        return Optional.of(entityManager.merge(materia));
         }
 
     @Override

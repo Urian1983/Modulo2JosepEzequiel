@@ -24,12 +24,8 @@ public class ProfesorDAOImpl implements ProfesorDAO {
     
      @Override
      public Profesor findById(Integer id) {
+
          return entityManager.find(Profesor.class, id);
-     }
-     @Override
-     public List<Materia> findMaterias(){
-       TypedQuery<Materia> query = entityManager.createQuery("FROM Materia WHERE id = :id", Materia.class);
-               return query.getResultList();
      }
 
      @Override
@@ -54,5 +50,13 @@ public class ProfesorDAOImpl implements ProfesorDAO {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Materia> findMaterias(int profesorId) {
+        return entityManager.createQuery(
+                "SELECT m FROM Materia WHERE m.profesor.id = :id", Materia.class)
+                .setParameter("id",profesorId)
+                .getResultList();
     }
 }

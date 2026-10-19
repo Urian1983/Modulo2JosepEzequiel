@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 public class MateriaRestController {
 
     MateriaDAO materiaDAO;
@@ -24,9 +24,6 @@ public class MateriaRestController {
     @PostMapping("/materias")
     @ResponseStatus(HttpStatus.CREATED)
     public void insert(@RequestBody Materia materia) {
-        if(materiaDAO.findById(materia.getId()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Materia ya existente");
-        }
         materiaDAO.save(materia);
     }
 

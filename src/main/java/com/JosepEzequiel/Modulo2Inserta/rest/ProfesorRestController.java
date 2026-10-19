@@ -32,7 +32,7 @@ public class ProfesorRestController {
         Profesor profesor = this.profesorDAO.findById(profesorId);
 
         if (profesor == null) {
-            throw new RuntimeException("Profesor id not found" + profesorId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return profesor;
     }
@@ -58,10 +58,10 @@ public class ProfesorRestController {
         }
     }
 
-    @GetMapping("profesores/materias")
+    @GetMapping("/profesores/{id}/materias")
     @ResponseStatus(HttpStatus.OK)
-    public List<Materia> findMaterias() {
-        return profesorDAO.findMaterias();
+    public List<Materia> findMaterias(@PathVariable  int id) {
+        return profesorDAO.findMaterias(id);
     }
    
     }

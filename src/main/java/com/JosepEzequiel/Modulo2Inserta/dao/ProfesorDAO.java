@@ -14,9 +14,9 @@ public interface ProfesorDAO {
     void save(Profesor theProfesor);
     Profesor findById(Integer id);
     void update(Profesor theProfesor);
-    List<Materia> findMaterias();
     List<Profesor> findAll();
     boolean delete(int id);
+    List<Materia> findMaterias(int profesorId);
     
 }
 
