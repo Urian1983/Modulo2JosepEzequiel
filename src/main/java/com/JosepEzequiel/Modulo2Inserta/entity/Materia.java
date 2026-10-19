@@ -31,7 +31,7 @@ public class Materia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="nombre")
+    @Column(name="nombre", nullable=false)
     private String nombre;
 
     @Column(name="num_creditos")

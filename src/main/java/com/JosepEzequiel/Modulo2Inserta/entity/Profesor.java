@@ -1,5 +1,6 @@
 package com.JosepEzequiel.Modulo2Inserta.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Profesor {
     }
 
     @OneToMany(mappedBy = "profesor")
+    @JsonIgnoreProperties("profesor")
     private List<Materia> materias;
     
     @Override

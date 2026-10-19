@@ -16,8 +16,6 @@ RUN ./mvnw -B package -DskipTests
 # ---------- Etapa 2: imagen final, solo con lo necesario para ejecutar ----------
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-
-# Usuario sin privilegios: buena práctica, la app no necesita ser root.
 RUN groupadd --system spring && useradd --system --gid spring spring
 
 COPY --from=build /app/target/*.jar app.jar

@@ -3,9 +3,7 @@ package com.JosepEzequiel.Modulo2Inserta.rest;
 import com.JosepEzequiel.Modulo2Inserta.dao.ProfesorDAO;
 import com.JosepEzequiel.Modulo2Inserta.entity.Materia;
 import com.JosepEzequiel.Modulo2Inserta.entity.Profesor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,9 +12,8 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api")
 public class ProfesorRestController {
 
-    private ProfesorDAO profesorDAO;
+    private final ProfesorDAO profesorDAO;
 
-    @Autowired
     public ProfesorRestController(ProfesorDAO profesorDAO) {
         this.profesorDAO = profesorDAO;
     }
@@ -46,7 +43,10 @@ public class ProfesorRestController {
 
     @PutMapping("/profesores")
     public Profesor updateProfesor(@RequestBody Profesor theProfesor) {
-        this.profesorDAO.update(theProfesor);
+        if(profesorDAO.findById(theProfesor.getId()) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        profesorDAO.update(theProfesor);
         return theProfesor;
     }
 

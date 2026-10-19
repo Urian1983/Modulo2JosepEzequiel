@@ -1,131 +1,74 @@
--- MySQL dump 10.13  Distrib 8.0.46, for Linux (x86_64)
---
--- Host: localhost    Database: modulo2
--- ------------------------------------------------------
--- Server version	8.0.46-0ubuntu0.24.04.4
+-- ============================================================
+-- Esquema de la base de datos `modulo2`
+-- Coherente con las entidades JPA (Profesor, Materia)
+-- y con JdbcUserDetailsManager (users, authorities)
+-- ============================================================
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Limpieza previa: borrar primero las tablas "hijas" y luego las "padres"
---
-
+-- Limpieza previa: hijas antes que padres
 DROP TABLE IF EXISTS `authorities`;
 DROP TABLE IF EXISTS `materias`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `profesor`;
 
---
--- Table structure for table `profesor`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+-- ------------------------------------------------------------
+-- Tabla `profesor`  ↔  Profesor.java
+-- ------------------------------------------------------------
 CREATE TABLE `profesor` (
-                            `id` bigint NOT NULL AUTO_INCREMENT,
-                            `apellidos` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                            `direccion` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                            `nombre` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                            `id`        int NOT NULL AUTO_INCREMENT,
+                            `apellidos` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+                            `direccion` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+                            `nombre`    varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
                             PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
---
--- Dumping data for table `profesor`
---
-
-LOCK TABLES `profesor` WRITE;
-/*!40000 ALTER TABLE `profesor` DISABLE KEYS */;
-/*!40000 ALTER TABLE `profesor` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `materias`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+-- ------------------------------------------------------------
+-- Tabla `materias`  ↔  Materia.java
+-- FK a profesor.id (mismo tipo: int)
+-- ------------------------------------------------------------
 CREATE TABLE `materias` (
-                            `id` int NOT NULL AUTO_INCREMENT,
+                            `id`            int NOT NULL AUTO_INCREMENT,
                             `horas_credito` int DEFAULT NULL,
-                            `nombre` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                            `num_creditos` int DEFAULT NULL,
-                            `id_profesor` bigint DEFAULT NULL,
+                            `nombre`        varchar(255) COLLATE utf8mb4_bin NOT NULL,
+                            `num_creditos`  int DEFAULT NULL,
+                            `id_profesor`   int DEFAULT NULL,
                             PRIMARY KEY (`id`),
                             KEY `FKlnqh687mx9fl9eekej6wn703b` (`id_profesor`),
-                            CONSTRAINT `FKlnqh687mx9fl9eekej6wn703b` FOREIGN KEY (`id_profesor`) REFERENCES `profesor` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+                            CONSTRAINT `FKlnqh687mx9fl9eekej6wn703b` FOREIGN KEY (`id_profesor`)
+                                REFERENCES `profesor` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
---
--- Dumping data for table `materias`
---
-
-LOCK TABLES `materias` WRITE;
-/*!40000 ALTER TABLE `materias` DISABLE KEYS */;
-INSERT INTO `materias` VALUES (2,60,'Bases de Datos',4,NULL),(3,120,'Cálculo Diferencial',8,NULL),(4,120,'Algebra',8,NULL);
-/*!40000 ALTER TABLE `materias` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+-- ------------------------------------------------------------
+-- Tabla `users`  →  JdbcUserDetailsManager
+-- ------------------------------------------------------------
 CREATE TABLE `users` (
-                         `username` varchar(50) NOT NULL,
-                         `password` varchar(50) NOT NULL,
-                         `enabled` tinyint NOT NULL,
+                         `username` varchar(100) NOT NULL COLLATE utf8mb4_bin,
+                         `password` varchar(100) NOT NULL,
+                         `enabled`  tinyint(1) NOT NULL DEFAULT 1,
                          PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
---
--- Table structure for table `authorities`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+-- ------------------------------------------------------------
+-- Tabla `authorities`  →  JdbcUserDetailsManager
+-- FK a users.username (mismo COLLATE: utf8mb4_bin)
+-- ------------------------------------------------------------
 CREATE TABLE `authorities` (
-                               `username` varchar(50) NOT NULL,
-                               `authority` varchar(50) NOT NULL,
-                               CONSTRAINT `fk_authorities_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+                               `username`  varchar(100) NOT NULL COLLATE utf8mb4_bin,
+                               `authority` varchar(50)  NOT NULL,
+                               UNIQUE KEY `authorities_idx_1` (`username`, `authority`),
+                               CONSTRAINT `authorities_ibfk_1` FOREIGN KEY (`username`)
+                                   REFERENCES `users` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
-CREATE UNIQUE INDEX `ix_auth_username` ON `authorities` (`username`, `authority`);
+-- ------------------------------------------------------------
+-- Datos iniciales de seguridad
+-- {noop} = contraseña en texto plano (decisión consciente)
+-- ------------------------------------------------------------
+INSERT INTO `users` (`username`, `password`, `enabled`) VALUES
+                                                            ('rector',   '{noop}1234', 1),
+                                                            ('profesor', '{noop}1234', 1),
+                                                            ('alumno',   '{noop}1234', 1);
 
---
--- Dumping data for table `users` and `authorities`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('rector','{noop}1234',1),('profesor','{noop}1234',1),('alumno','{noop}1234',1);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
-LOCK TABLES `authorities` WRITE;
-/*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
-INSERT INTO `authorities` VALUES ('rector','ROLE_RECTOR'),('profesor','ROLE_PROFESOR'),('alumno','ROLE_ALUMNO');
-/*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
-UNLOCK TABLES;
-
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+INSERT INTO `authorities` (`username`, `authority`) VALUES
+                                                        ('rector',   'ROLE_RECTOR'),
+                                                        ('profesor', 'ROLE_PROFESOR'),
+                                                        ('alumno',   'ROLE_ALUMNO');
