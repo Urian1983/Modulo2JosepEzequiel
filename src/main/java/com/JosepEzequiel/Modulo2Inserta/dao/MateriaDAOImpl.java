@@ -28,12 +28,10 @@ public class MateriaDAOImpl implements MateriaDAO {
     @Override
     @Transactional
     public Optional<Materia> update(Materia materia) {
-        Optional<Materia> materiaToUpdate = this.findById(materia.getId());
-        if (materiaToUpdate.isPresent()) {
-            Materia updatedMateria = entityManager.merge(materia);
-            return Optional.ofNullable(updatedMateria);
+        if(this.findById(materia.getId()).isEmpty()) {
+            return Optional.empty();
         }
-        return Optional.empty();
+        return Optional.of(materia);
         }
 
     @Override
