@@ -57,10 +57,10 @@ public class MateriaRestController {
         }
     }
 
-    @GetMapping("/materia/{materiaId}/profesor")
+    @GetMapping("/materias/{id}/profesor")
     @ResponseStatus(HttpStatus.OK)
-    public Profesor findByProfesor(@PathVariable int materiaId) {
-        Materia materia = materiaDAO.findById(materiaId)
+    public Profesor findByProfesor(@PathVariable int id) {
+        Materia materia = materiaDAO.findById(id)
                 .orElseThrow(() -> new ResponseStatusException
                         (HttpStatus.NOT_FOUND, "Materia no encontrada"));
 
