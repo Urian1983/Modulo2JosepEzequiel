@@ -55,6 +55,7 @@ public class MateriaRestController {
         if(materiaDAO.findById(id).isPresent()) {
             materiaDAO.delete(id);
         }
+        else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Materia no encontrada");
     }
 
     @GetMapping("/materias/{id}/profesor")
