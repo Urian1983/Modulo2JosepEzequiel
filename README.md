@@ -206,6 +206,24 @@ Notas:
 - El `Dockerfile` compila con `-DskipTests`, porque el test `contextLoads` requiere una base de datos accesible.
 - La imagen final se ejecuta con un usuario sin privilegios (`spring`).
 
+### Imagen en Docker Hub
+
+La imagen de la aplicación está publicada en Docker Hub: [`urian1983/modulo2-app`](https://hub.docker.com/r/urian1983/modulo2-app).
+
+```bash
+docker pull urian1983/modulo2-app:latest
+```
+
+La imagen contiene **solo la API**. Necesita un MySQL accesible, por lo que la forma de ejecutarla sigue siendo `docker-compose.yaml`. Para usar la imagen publicada en lugar de compilarla en local, añade la línea `image` al servicio `app`:
+
+```yaml
+  app:
+    image: urian1983/modulo2-app:latest
+    build: .
+```
+
+Con eso, `docker compose pull` y `docker compose up` descargan la imagen sin necesidad de compilar el proyecto.
+
 ### Opción B – Ejecución local
 
 ```bash
