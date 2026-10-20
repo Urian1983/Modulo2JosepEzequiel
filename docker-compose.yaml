@@ -5,10 +5,9 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: modulo2
-    env_file:
-      - .env
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true" # Fixes the uninitialized database error
     ports:
-      - "3306:3306"
+      - "3307:3306" # Maps host port 3307 to container's internal MySQL port 3306
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -18,10 +17,8 @@ services:
     restart: always
     ports:
       - "8080:8080"
-    env_file:
-      - .env
     environment:
-      - DB_URL=jdbc:mysql://mysql:3306/modulo2?useSSL=false&serverTimezone=UTC
+      - DB_URL=jdbc:mysql://mysql:3306/modulo2?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     depends_on:
       - mysql
 
